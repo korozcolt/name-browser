@@ -1,6 +1,13 @@
-import { Builder, By, Key, ThenableWebDriver, WebDriver } from 'selenium-webdriver';
+import * as chrome from 'selenium-webdriver/chrome';
 
-import { Options as FirefoxOptions } from 'selenium-webdriver/firefox';
+import {
+  Builder,
+  By,
+  Key,
+  ThenableWebDriver,
+  WebDriver,
+} from 'selenium-webdriver';
+
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,19 +16,25 @@ export class ServidorNombresService {
     { question: '¿ Cuanto es 4 + 3 ?', answer: '7' },
     { question: '¿ Cuanto es 6 + 2 ?', answer: '8' },
     { question: '¿ Cuanto es 5 + 3 ?', answer: '8' },
-    { question: '¿ Cual es la Capital de Colombia (sin tilde)?', answer: 'bogota' },
+    {
+      question: '¿ Cual es la Capital de Colombia (sin tilde)?',
+      answer: 'bogota',
+    },
     { question: '¿ Cual es la Capital del Vallle del Cauca?', answer: 'cali' },
     { question: '¿ Cuanto es 3 - 2 ?', answer: '1' },
     { question: '¿ Cuanto es 9 - 2 ?', answer: '7' },
     { question: '¿ Cual es la Capital del Atlantico?', answer: 'barranquilla' },
-    { question: '¿ Cual es la Capital de Antioquia (sin tilde)?', answer: 'medellin' },
+    {
+      question: '¿ Cual es la Capital de Antioquia (sin tilde)?',
+      answer: 'medellin',
+    },
   ];
 
   async getName(dni: number): Promise<string> {
-    const options = new FirefoxOptions().headless();
+    const options = new chrome.Options().headless();
     const driver: WebDriver = await new Builder()
-      .forBrowser('firefox')
-      .setFirefoxOptions(options)
+      .forBrowser('chrome')
+      .setChromeOptions(options)
       .build();
 
     try {
@@ -51,7 +64,9 @@ export class ServidorNombresService {
         }
       }
 
-      const respuestaPregunta = await driver.findElement(By.id('txtRespuestaPregunta'));
+      const respuestaPregunta = await driver.findElement(
+        By.id('txtRespuestaPregunta'),
+      );
       await respuestaPregunta.sendKeys(validate.answer);
 
       const consultarButton = await driver.findElement(By.id('btnConsultar'));
@@ -59,7 +74,9 @@ export class ServidorNombresService {
 
       await driver.sleep(1000);
 
-      const consulta = await driver.findElement(By.className('datosConsultado'));
+      const consulta = await driver.findElement(
+        By.className('datosConsultado'),
+      );
       const data = await consulta.getAttribute('innerHTML');
       const name = data
         .match(/<span>(.+?)<\/span>/g)
