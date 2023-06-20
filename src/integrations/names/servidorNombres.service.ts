@@ -1,5 +1,3 @@
-import * as chrome from 'selenium-webdriver/chrome';
-
 import {
   Builder,
   By,
@@ -8,6 +6,7 @@ import {
   WebDriver,
 } from 'selenium-webdriver';
 
+import { Options as FirefoxOptions } from 'selenium-webdriver/firefox';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -31,10 +30,10 @@ export class ServidorNombresService {
   ];
 
   async getName(dni: number): Promise<string> {
-    const options = new chrome.Options().headless();
+    const options = new FirefoxOptions().headless();
     const driver: WebDriver = await new Builder()
-      .forBrowser('chrome')
-      .setChromeOptions(options)
+      .forBrowser('firefox')
+      .setFirefoxOptions(options)
       .build();
 
     try {
