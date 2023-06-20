@@ -24,6 +24,10 @@ export class ServidorNombresService {
     { question: '¿ Cuanto es 3 - 2 ?', answer: '1' },
     { question: '¿ Cuanto es 9 - 2 ?', answer: '7' },
     { question: '¿ Cual es la Capital del Atlantico?', answer: 'barranquilla' },
+    {
+      question: '¿ Cual es la Capital de Antioquia (sin tilde)?',
+      answer: 'medellin',
+    },
   ];
 
   async getName(dni: number): Promise<string> {
