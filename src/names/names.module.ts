@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { NamesService } from './names.service';
-import { NamesController } from './names.controller';
+import { Name } from './entities/name.entity';
+import { NamesController } from './controllers/names.controller';
+import { NamesService } from './services/names.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { ServidorNombresModule } from 'src/integrations/names/servidorNombres.module';
 
 @Module({
+  imports: [SequelizeModule.forFeature([Name]), ServidorNombresModule],
   controllers: [NamesController],
-  providers: [NamesService]
+  providers: [NamesService],
 })
 export class NamesModule {}

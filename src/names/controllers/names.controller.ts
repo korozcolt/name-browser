@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { NamesService } from './names.service';
-import { CreateNameDto } from './dto/create-name.dto';
-import { UpdateNameDto } from './dto/update-name.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { NamesService } from '../services/names.service';
+import { CreateNameDto } from '../dto/create-name.dto';
+import { UpdateNameDto } from '../dto/update-name.dto';
 
 @Controller('names')
 export class NamesController {
@@ -20,6 +28,17 @@ export class NamesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.namesService.findOne(+id);
+  }
+
+  @Get('/dni/:dni')
+  findByDni(@Param('dni') dni: number) {
+    return this.namesService.findByDni(dni);
+  }
+
+  @Post('/dnis')
+  async findByDnis(@Body() body: { dnis: number[] }) {
+    const dnis = body.dnis;
+    return this.namesService.findByDnis(dnis);
   }
 
   @Patch(':id')
