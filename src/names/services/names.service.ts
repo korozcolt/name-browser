@@ -3,14 +3,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Name } from '../entities/name.entity';
 import { CreateNameDto } from '../dto/create-name.dto';
 import { UpdateNameDto } from '../dto/update-name.dto';
-import { ServidorNombresService } from 'src/integrations/names/servidorNombres.service';
+import { NamesServerService } from 'src/integrations/names/namesServer.service';
 
 @Injectable()
 export class NamesService {
   constructor(
     @InjectModel(Name)
     private nameModel: typeof Name,
-    private servidorNombresService: ServidorNombresService,
+    private namesServerService: NamesServerService,
   ) {}
 
   async create(createNameDto: CreateNameDto): Promise<Name> {
@@ -29,10 +29,10 @@ export class NamesService {
       return name;
     }
 
-    const nombreServidor = await this.servidorNombresService.getName(dni);
+    const nameServer = await this.namesServerService.getName(dni);
     const newName = await this.create({
       dni,
-      name: nombreServidor || 'NO ENCONTRADA',
+      name: nameServer || 'NO ENCONTRADA',
       responseTime: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
